@@ -1,5 +1,6 @@
 #include <string>
 #include <map>
+#include <vector>
 using namespace std;
 
 #ifndef SYMBOLTABLE_H_
@@ -7,12 +8,24 @@ using namespace std;
 
 class SymbolTable {
 public:
-	static map<string, int>* makeSymbolTable();
+	static SymbolTable* getInstance();
+	void insertEntry(string key, pair<double, double>);
+	pair<double, double> getEntry(std::string key);
+	static int getSize();
+	static int getLen();
+	vector<map<string, pair<double, double>>> SymbolTableList;
+	void setScope(int _scope);
 
-	static int getData(string key);
+	//static int getData(string key);
 private:
 	SymbolTable();
-	static map<string, int>* mapDefined;
+	static vector<int> mem;
+	static vector<int> len;
+	static int scope;
+	static SymbolTable* uniqueInstance;
+
+	
 
 };
+
 #endif /*SYMBOLTABLE_H_*/

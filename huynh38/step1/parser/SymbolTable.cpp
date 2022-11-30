@@ -1,28 +1,55 @@
 #include <map>
 #include <string>
+#include <vector>
+#include <iostream>
 using namespace std;
 #include "SymbolTable.h"
 
-map<string, int>* SymbolTable::mapDefined = nullptr;
+SymbolTable* SymbolTable::uniqueInstance = nullptr;
+std::vector<int> SymbolTable::mem{ 0, 0 };
+std::vector<int> SymbolTable::len{ 0, 0 };
+int SymbolTable::scope = 0;
 
-SymbolTable::SymbolTable() {
-    definedMap = new map<string, int>;
+SymbolTable::SymbolTable() { }
+
+SymbolTable* SymbolTable::getInstance() {
+    if (uniqueInstance == nullptr) {
+        uniqueInstance = new SymbolTable();
+    }
+    return uniqueInstance;
 }
 
 
-map<string, int>* SymbolTable::makeSymbolTable() {
-    if (!mapDefined) {
-        mapDefined = make_shared<map<std::string, int>>();
+void SymbolTable::insertEntry(std::string key, pair<double,double> entry) {
+    // if table[scope] does not exist, create it
+    if (SymbolTableList.size() <= scope) {
+        SymbolTableList.push_back(std::map<std::string, pair<double, double>>());
     }
-    return mapDefined;
+    SymbolTableList[scope][key] = entry;
+    mem[scope] += entry.second;
+    len[scope]++;
 }
-int SymbolTable::getData(std::string key) {
-    if (!mapDefined) {
-        return 2147483647; // just an error value I picked
-        for (auto const& e : *definedMap) {
-            if (e.first == key) {
-                return x.second;
-            }
-        }
+
+int SymbolTable::getSize() {
+    return mem[scope];
+}
+
+int SymbolTable::getLen() {
+    return len[scope];
+}
+
+
+void SymbolTable::setScope(int _scope) {
+    scope = _scope;
+
+    // if setting scope to global, reset memsize[1], numVar[1], and table[1]
+    if (scope == 0) {
+        mem[1] = 0;
+        len[1] = 0;
+        SymbolTableList[1].clear();
     }
+}
+
+pair<double, double> SymbolTable::getEntry(string key) {
+    return SymbolTableList[scope][key];
 }

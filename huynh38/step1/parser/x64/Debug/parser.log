@@ -1,0 +1,7 @@
+﻿  main.cpp
+C:\Users\dylan\OneDrive\Documents\GitHub\ECE39595\huynh38\step1\parser\main.cpp(50,19): warning C4244: 'initializing': conversion from '_Ty1' to 'int', possible loss of data
+          with
+          [
+              _Ty1=double
+          ]
+  parser.vcxproj -> C:\Users\dylan\OneDrive\Documents\GitHub\ECE39595\huynh38\step1\parser\x64\Debug\parser.exe

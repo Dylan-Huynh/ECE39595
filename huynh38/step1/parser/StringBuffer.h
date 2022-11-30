@@ -1,13 +1,21 @@
+#include <vector>
+#include <string>
+using namespace std;
+
 #ifndef STRINGBUFFER_H_
 #define STRINGBUFFER_H_
 
-#include <string>
-
 class StringBuffer {
 public:
-	StringBuffer( );
-	void insertString(string printed);
+	static StringBuffer* getInstance();
+	void insertString(string str);
+	string getString(int index);
+	int getSize();
+
 private:
-	string* stringList[];
+	static StringBuffer* uniqueInstance;
+	vector<string> stringList;
+	StringBuffer();
+
 };
 #endif /* STRINGBUFFER_H_ */

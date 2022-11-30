@@ -1,32 +1,52 @@
+#ifndef STMT_H_
+#define STMT_H_
+
+#include <map>
 #include <string>
+#include <vector>
+#include <iostream>
 using namespace std;
 
 class Stmt {
 public:
-	string desclscal();
-	string declarr();
-	string label();
-	string gosublabel();
-	string start();
-	string end();
-	string exit();
-	string jumpzero();
-	string jumpnzero();
-	string gosub();
-	string ret();
-	string pushscal();
-	string pusharr();
-	string pushi();
-	string pop();
-	string popscal();
-	string poparr();
-	string dup();
-	string swap();
-	string add();
-	string negate();
-	string mul();
-	string div();
-	string printtos();
-	string prints();
+    static const int OP_JUMP = 0x00000010;
+    static const int OP_JUMPZERO = 0x00000011;
+    static const int OP_JUMPNZERO = 0x00000012;
+    static const int OP_GOSUB = 0x00000013;
+    static const int OP_RETURN = 0x00000014;
+    static const int OP_ENTER_SUBROUTINE = 0x00000015;
+    static const int OP_EXIT_SUBROUTINE = 0x00000016;
+    static const int OP_START_PROGRAM = 0x00000017;
+    static const int OP_EXIT_PROGRAM = 0x00000018;
+    static const int OP_PUSHSCALAR = 0x00000020;
+    static const int OP_PUSHARRAY = 0x00000021;
+    static const int OP_PUSHI = 0x00000022;
+    static const int OP_POPSCALAR = 0x00000030;
+    static const int OP_POPARRAY = 0x00000031;
+    static const int OP_POP = 0x00000032;
+    static const int OP_DUP = 0x00000040;
+    static const int OP_SWAP = 0x00000041;
+    static const int OP_ADD = 0x00000050;
+    static const int OP_NEGATE = 0x00000051;
+    static const int OP_MUL = 0x00000052;
+    static const int OP_DIV = 0x00000053;
+    static const int OP_PRINTS = 0x00000060;
+    static const int OP_PRINTTOS = 0x00000061;
+
+    string opCode = 0;
+    int opCodeInt = 0;
+
+    //virtual string operation();
+    virtual string getOther(int index);
+    virtual void setOther();
+    virtual void setOther(string _string);
+    virtual void setOther(int _int);
+    friend ostream& operator<<(ostream& ostr, Stmt stmt);
+    Stmt(std::string _opCode);
+
+
+private:
 
 };
+
+#endif

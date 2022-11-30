@@ -10,3 +10,15 @@ InstructionBuffer* InstructionBuffer::getInstance() {
     }
     return uniqueInstance;
 }
+
+void InstructionBuffer::insertStmt(Stmt* stmt) {
+    InstructionList.push_back(move(stmt));
+}
+
+Stmt* InstructionBuffer::getStmt(int index) {
+    return InstructionList[index];
+}
+
+int InstructionBuffer::getSize() {
+    return InstructionList.size();
+}

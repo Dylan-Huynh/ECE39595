@@ -33,6 +33,9 @@
     <ClCompile Include="Stmt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="StmtExtensions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Stmt.h">
@@ -48,6 +51,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="StringBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StmtExtensions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

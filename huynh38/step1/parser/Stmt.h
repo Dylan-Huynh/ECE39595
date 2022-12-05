@@ -34,7 +34,7 @@ public:
     static const int OP_PRINTTOS = 0x00000061;
 
     string opCode = 0;
-    int opCodeInt = 0;
+    string Instruction = "";
 
     //virtual string operation();
     virtual string getOther(int index);

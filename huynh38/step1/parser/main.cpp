@@ -23,15 +23,17 @@ StringBuffer* stringBuffer = StringBuffer::getInstance();
 
 int main(int argc, char** argv) {
 
-	if (argc != 2) {
+	if (argc != 3) {
 		cerr << "Input is not Correct" << endl;
 		return -1;
 	}
 	string line;
-	ifstream f;
-	f.open(argv[1]);
-	if (f.is_open()) {
-		while (getline(f, line)) {
+	ifstream inFile;
+	inFile.open(argv[1]);
+	ofstream outFile;
+	outFile.open(argv[2]);
+	if (inFile.is_open()) {
+		while (getline(inFile, line)) {
 			// parse each statement line by line
 			string op = parse(line);
 			if (op == "") {
@@ -39,9 +41,13 @@ int main(int argc, char** argv) {
 				exit(0);
 			}
 			if (op == "end") {
-				if (getline(f, line)) {
+				if (getline(inFile, line)) {
 					cerr << "nothing should come after end" << endl;
 					exit(0);
+				}
+				for (int i = 0; i < instructionBuffer->getSize(); i++) {
+					cout << stringBuffer->getString(i) << endl;
+					outFile << stringBuffer->getString(i) << endl;
 				}
 				for (int i = 0; i < instructionBuffer->getSize(); i++) {
 					Stmt* currStmt = instructionBuffer->getStmt(i);
@@ -51,13 +57,14 @@ int main(int argc, char** argv) {
 						int lineNum = symbolTable->getEntry(label).first;
 						currStmt->setOther(lineNum);
 					}
+					outFile << currStmt << endl;
 					cout << currStmt << endl;
-					cout << currStmt->opCodeInt << endl;
 					
 				}
 			}
 		}
-		f.close();
+		inFile.close();
+		outFile.close();
 	}
 	else {
 		cerr << "failed to open file " << argv[1] << ", terminating" << endl;

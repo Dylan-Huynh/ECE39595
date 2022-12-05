@@ -235,6 +235,7 @@ string parse(string line) {
 		string location = to_string(stringBuffer->getSize());
 		Stmt* prints = new Prints("prints", location, stringBuffer->getSize() - 1);
 		instructionBuffer->insertStmt(prints);
+		return opCode;
 	}
 	return "";
 

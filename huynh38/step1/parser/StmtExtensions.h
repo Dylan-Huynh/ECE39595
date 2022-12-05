@@ -11,7 +11,7 @@ public:
 
     End(std::string _opCode);
     string getOther(int index);
-    friend ostream& operator<<(ostream& ostr, End stmt);
+    virtual ostream& print(ostream& ostr);
 
 };
 
@@ -24,7 +24,7 @@ public:
     string getOther(int index);
     void setOther(string _label);
     void setOther(int _location);
-    friend ostream& operator<<(ostream& ostr, Jump stmt);
+    virtual ostream& print(ostream& ostr);
 
 };
 
@@ -37,7 +37,7 @@ public:
     string getOther(int index);
     void setOther(string _label);
     void setOther(int _location);
-    friend ostream& operator<<(ostream& ostr, JumpZero stmt);
+    virtual ostream& print(ostream& ostr);
 
 };
 
@@ -50,7 +50,7 @@ public:
     string getOther(int index);
     void setOther(string _label);
     void setOther(int _location);
-    friend ostream& operator<<(ostream& ostr, JumpNZero stmt);
+    virtual ostream& print(ostream& ostr);
 
 };
 
@@ -63,7 +63,7 @@ public:
     string getOther(int index);
     void setOther(string _label);
     void setOther(int _location);
-    friend ostream& operator<<(ostream& ostr, GoSub stmt);
+    virtual ostream& print(ostream& ostr);
 
 };
 
@@ -72,7 +72,7 @@ public:
 
     Return(std::string _opCode);
     string getOther(int index);
-    friend ostream& operator<<(ostream& ostr, Return stmt);
+    virtual ostream& print(ostream& ostr);
 
 };
 
@@ -85,18 +85,20 @@ public:
     string getOther(int index);
     void setOther(string _label);
     void setOther(int _location);
-    friend ostream& operator<<(ostream& ostr, Enter stmt);
+    virtual ostream& print(ostream& ostr);
 
 };
 
+/*
 class ExitSubroutine : public Stmt {
 public:
 
     ExitSubroutine(std::string _opCode);
     string getOther(int index);
-    friend ostream& operator<<(ostream& ostr, ExitSubroutine stmt);
+    virtual ostream& print(ostream& ostr);
 
 };
+*/
 
 class Start : public Stmt {
 public:
@@ -104,7 +106,7 @@ public:
     Start(std::string _opCode);
     string getOther(int index);
     void setOther(int _numVars);
-    friend ostream& operator<<(ostream& ostr, Start stmt);
+    virtual ostream& print(ostream& ostr);
 
 };
 
@@ -113,7 +115,7 @@ public:
 
     ExitProgram(std::string _opCode);
     string getOther(int index);
-    friend ostream& operator<<(ostream& ostr, ExitProgram stmt);
+    virtual ostream& print(ostream& ostr);
 
 };
 
@@ -124,7 +126,7 @@ public:
     PushScalar(std::string _opCode, string _var);
     string getOther(int index);
     void setOther(string _var);
-    friend ostream& operator<<(ostream& ostr, PushScalar stmt);
+    virtual ostream& print(ostream& ostr);
 
 };
 
@@ -135,7 +137,7 @@ public:
     PushArray(std::string _opCode, string _var);
     string getOther(int index);
     void setOther(string _var);
-    friend ostream& operator<<(ostream& ostr, PushArray stmt);
+    virtual ostream& print(ostream& ostr);
 
 };
 
@@ -145,7 +147,7 @@ public:
     PushI(std::string _opCode, int _arg);
     string getOther(int index);
     void setOther(int _arg);
-    friend ostream& operator<<(ostream& ostr, PushI stmt);
+    virtual ostream& print(ostream& ostr);
 
 };
 
@@ -156,7 +158,7 @@ public:
     PopScalar(std::string _opCode, string _var);
     string getOther(int index);
     void setOther(string _var);
-    friend ostream& operator<<(ostream& ostr, PopScalar stmt);
+    virtual ostream& print(ostream& ostr);
 
 };
 
@@ -167,7 +169,7 @@ public:
     PopArray(std::string _opCode, string _var);
     string getOther(int index);
     void setOther(string _var);
-    friend ostream& operator<<(ostream& ostr, PopArray stmt);
+    virtual ostream& print(ostream& ostr);
 
 };
 
@@ -177,7 +179,7 @@ public:
 
     Pop(std::string _opCode);
     string getOther(int index);
-    friend ostream& operator<<(ostream& ostr, Pop stmt);
+    virtual ostream& print(ostream& ostr);
 
 };
 
@@ -186,7 +188,7 @@ public:
 
     Dup(std::string _opCode);
     string getOther(int index);
-    friend ostream& operator<<(ostream& ostr, Dup stmt);
+    virtual ostream& print(ostream& ostrvirtual);
 
 };
 
@@ -195,7 +197,7 @@ public:
 
     Swap(std::string _opCode);
     string getOther(int index);
-    friend ostream& operator<<(ostream& ostr, Swap stmt);
+    virtual ostream& print(ostream& ostr);
 
 };
 
@@ -204,7 +206,7 @@ public:
 
     Add(std::string _opCode);
     string getOther(int index);
-    friend ostream& operator<<(ostream& ostr, Add stmt);
+    virtual ostream& print(ostream& ostr);
 
 };
 
@@ -213,7 +215,7 @@ public:
 
     Negate(std::string _opCode);
     string getOther(int index);
-    friend ostream& operator<<(ostream& ostr, Negate stmt);
+    virtual ostream& print(ostream& ostr);
 
 
 };
@@ -223,7 +225,7 @@ public:
 
     Mul(std::string _opCode);
     string getOther(int index);
-    friend ostream& operator<<(ostream& ostr, Mul stmt);
+    virtual ostream& print(ostream& ostr);
 
 };
 
@@ -232,7 +234,7 @@ public:
 
     Div(std::string _o_opCodep);
     string getOther(int index);
-    friend ostream& operator<<(ostream& ostr, Div stmt);
+    virtual ostream& print(ostream& ostr);
 
 };
 
@@ -244,7 +246,7 @@ public:
     string getOther(int index);
     void setOther(string _str);
     void setOther(int _strIndex);
-    friend ostream& operator<<(ostream& ostr, Prints stmt);
+    virtual ostream& print(ostream& ostr);
 
 };
 
@@ -253,6 +255,6 @@ public:
 
     PrintTOS(std::string _opCode);
     string getOther(int index);
-    friend ostream& operator<<(ostream& ostr, PrintTOS stmt);
+    virtual ostream& print(ostream& ostr);
 
 };

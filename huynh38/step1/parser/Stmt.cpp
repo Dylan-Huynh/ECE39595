@@ -24,7 +24,7 @@ void Stmt::setOther(int _int)
 }
 ;
 
-ostream& operator<<(ostream& ostr, Stmt stmt)
+ostream& Stmt::print(ostream& ostr)
 {
 	return ostr << "Wrong inheritance" << endl;
 }

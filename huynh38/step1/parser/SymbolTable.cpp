@@ -6,8 +6,8 @@ using namespace std;
 #include "SymbolTable.h"
 
 SymbolTable* SymbolTable::uniqueInstance = nullptr;
-std::vector<int> SymbolTable::mem{ 0, 0 };
-std::vector<int> SymbolTable::len{ 0, 0 };
+vector<int> SymbolTable::mem{ 0, 0 };
+vector<int> SymbolTable::len{ 0, 0 };
 int SymbolTable::scope = 0;
 
 SymbolTable::SymbolTable() { }
@@ -20,10 +20,10 @@ SymbolTable* SymbolTable::getInstance() {
 }
 
 
-void SymbolTable::insertEntry(std::string key, pair<double,double> entry) {
+void SymbolTable::insertEntry(string key, pair<double,double> entry) {
     // if table[scope] does not exist, create it
     if (SymbolTableList.size() <= scope) {
-        SymbolTableList.push_back(std::map<std::string, pair<double, double>>());
+        SymbolTableList.push_back(map<string, pair<double, double>>());
     }
     SymbolTableList[scope][key] = entry;
     mem[scope] += entry.second;

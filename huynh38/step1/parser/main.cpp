@@ -32,6 +32,10 @@ int main(int argc, char** argv) {
 	inFile.open(argv[1]);
 	ofstream outFile;
 	outFile.open(argv[2]);
+	if (outFile.fail()) {
+		cerr << "failed to open file " << argv[2] << ", terminating" << endl;
+		return -1;
+	}
 	if (inFile.is_open()) {
 		while (getline(inFile, line)) {
 			// parse each statement line by line
@@ -45,7 +49,7 @@ int main(int argc, char** argv) {
 					cerr << "nothing should come after end" << endl;
 					exit(0);
 				}
-				for (int i = 0; i < instructionBuffer->getSize(); i++) {
+				for (int i = 0; i < stringBuffer->getSize(); i++) {
 					cout << stringBuffer->getString(i) << endl;
 					outFile << stringBuffer->getString(i) << endl;
 				}
@@ -57,8 +61,8 @@ int main(int argc, char** argv) {
 						int lineNum = symbolTable->getEntry(label).first;
 						currStmt->setOther(lineNum);
 					}
-					outFile << currStmt << endl;
-					cout << currStmt << endl;
+					currStmt->print(outFile);
+					currStmt->print(cout);
 					
 				}
 			}

@@ -12,6 +12,11 @@ string End::getOther(int index) {
 	return "";
 }
 
+ostream& End::print(ostream& ostr)
+{
+	return ostr;
+}
+
 Jump::Jump(string _opCode, string _label) : Stmt(_opCode) {
 	Instruction = "Jump";
 	label = _label;
@@ -30,6 +35,10 @@ void Jump::setOther(string _label)
 void Jump::setOther(int _location)
 {
 	location = _location;
+}
+ostream& Jump::print(ostream& ostr)
+{
+	return ostr << Instruction << " " << getOther(1) << endl;
 }
 ;
 
@@ -52,6 +61,10 @@ void JumpZero::setOther(int _location)
 {
 	location = _location;
 }
+ostream& JumpZero::print(ostream& ostr)
+{
+	return ostr << Instruction << " " << getOther(1) << endl;
+}
 ;
 
 JumpNZero::JumpNZero(string _opCode, string _label) : Stmt(_opCode) {
@@ -72,6 +85,10 @@ void JumpNZero::setOther(string _label)
 void JumpNZero::setOther(int _location)
 {
 	location = _location;
+}
+ostream& JumpNZero::print(ostream& ostr)
+{
+	return ostr << Instruction << " " << getOther(1) << endl;
 }
 ;
 
@@ -94,6 +111,10 @@ void GoSub::setOther(int _location)
 {
 	location = _location;
 }
+ostream& GoSub::print(ostream& ostr)
+{
+	return ostr << Instruction << " " << getOther(1) << endl;
+}
 ;
 
 Return::Return(string _opCode) : Stmt(_opCode) {
@@ -102,6 +123,10 @@ Return::Return(string _opCode) : Stmt(_opCode) {
 string Return::getOther(int index)
 {
 	return "";
+}
+ostream& Return::print(ostream& ostr)
+{
+	return ostr << Instruction << endl;
 }
 ;
 
@@ -124,6 +149,10 @@ void Enter::setOther(string _label)
 void Enter::setOther(int _location)
 {
 	location = _location;
+}
+ostream& Enter::print(ostream& ostr)
+{
+	return ostr << Instruction << endl;
 }
 ;
 
@@ -149,6 +178,10 @@ void Start::setOther(int _numVars)
 {
 	numVars = _numVars;
 }
+ostream& Start::print(ostream& ostr)
+{
+	return ostr << Instruction << " " << getOther(1) << endl;
+}
 ;
 
 ExitProgram::ExitProgram(string _opCode) : Stmt(_opCode) {
@@ -157,6 +190,10 @@ ExitProgram::ExitProgram(string _opCode) : Stmt(_opCode) {
 string ExitProgram::getOther(int index)
 {
 	return "";
+}
+ostream& ExitProgram::print(ostream& ostr)
+{
+	return ostr << Instruction << endl;
 }
 ;
 
@@ -175,6 +212,10 @@ void PushScalar::setOther(string _var)
 {
 	var = _var;
 }
+ostream& PushScalar::print(ostream& ostr)
+{
+	return ostr << Instruction << " " << getOther(1) << endl;
+}
 ;
 
 PushArray::PushArray(string _opCode, string _var) : Stmt(_opCode) {
@@ -191,6 +232,10 @@ string PushArray::getOther(int index)
 void PushArray::setOther(string _var)
 {
 	var = _var;
+}
+ostream& PushArray::print(ostream& ostr)
+{
+	return ostr << Instruction << " " << getOther(1) << endl;
 }
 ;
 
@@ -209,6 +254,10 @@ void PushI::setOther(int _arg)
 {
 	arg = _arg;
 }
+ostream& PushI::print(ostream& ostr)
+{
+	return ostr << Instruction << " " << getOther(1) << endl;
+}
 ;
 
 PopScalar::PopScalar(string _opCode, string _var) : Stmt(_opCode) {
@@ -225,6 +274,10 @@ string PopScalar::getOther(int index)
 void PopScalar::setOther(string _var)
 {
 	var = _var;
+}
+ostream& PopScalar::print(ostream& ostr)
+{
+	return ostr << Instruction << " " << getOther(1) << endl;
 }
 ;
 
@@ -243,6 +296,10 @@ void PopArray::setOther(string _var)
 {
 	var = _var;
 }
+ostream& PopArray::print(ostream& ostr)
+{
+	return ostr << Instruction << " " << getOther(1) << endl;
+}
 ;
 
 Pop::Pop(string _opCode) : Stmt(_opCode) {
@@ -251,6 +308,10 @@ Pop::Pop(string _opCode) : Stmt(_opCode) {
 string Pop::getOther(int index)
 {
 	return "";
+}
+ostream& Pop::print(ostream& ostr)
+{
+	return ostr << Instruction << endl;
 }
 ;
 
@@ -261,6 +322,10 @@ string Dup::getOther(int index)
 {
 	return "";
 }
+ostream& Dup::print(ostream& ostr)
+{
+	return ostr << Instruction << endl;
+}
 ;
 
 Swap::Swap(string _opCode) : Stmt(_opCode) {
@@ -269,6 +334,10 @@ Swap::Swap(string _opCode) : Stmt(_opCode) {
 string Swap::getOther(int index)
 {
 	return "";
+}
+ostream& Swap::print(ostream& ostr)
+{
+	return ostr << Instruction << endl;
 }
 ;
 
@@ -279,6 +348,10 @@ string Add::getOther(int index)
 {
 	return "";
 }
+ostream& Add::print(ostream& ostr)
+{
+	return ostr << Instruction << endl;
+}
 ;
 
 Negate::Negate(string _opCode) : Stmt(_opCode) {
@@ -287,6 +360,10 @@ Negate::Negate(string _opCode) : Stmt(_opCode) {
 string Negate::getOther(int index)
 {
 	return "";
+}
+ostream& Negate::print(ostream& ostr)
+{
+	return ostr << Instruction << endl;
 }
 ;
 
@@ -297,6 +374,10 @@ string Mul::getOther(int index)
 {
 	return "";
 }
+ostream& Mul::print(ostream& ostr)
+{
+	return ostr << Instruction << endl;
+}
 ;
 
 Div::Div(string _opCode) : Stmt(_opCode) {
@@ -305,6 +386,10 @@ Div::Div(string _opCode) : Stmt(_opCode) {
 string Div::getOther(int index)
 {
 	return "";
+}
+ostream& Div::print(ostream& ostr)
+{
+	return ostr << Instruction << endl;
 }
 ;
 
@@ -332,6 +417,10 @@ void Prints::setOther(int _strIndex)
 {
 	strIndex = _strIndex;
 }
+ostream& Prints::print(ostream& ostr)
+{
+	return ostr << Instruction << " " << getOther(2) << endl;
+}
 ;
 
 PrintTOS::PrintTOS(string _opCode) : Stmt(_opCode) {
@@ -341,124 +430,9 @@ string PrintTOS::getOther(int index)
 {
 	return "";
 }
+ostream& PrintTOS::print(ostream& ostr)
+{
+	return ostr << Instruction << endl;
+}
 ;
 
-ostream& operator<<(ostream& ostr, End stmt)
-{
-	return ostr;
-}
-
-ostream& operator<<(ostream& ostr, Jump stmt)
-{
-	return ostr << stmt.Instruction << " " << stmt.getOther(1) << endl;
-}
-
-ostream& operator<<(ostream& ostr, JumpZero stmt)
-{
-	return ostr << stmt.Instruction << " " << stmt.getOther(1) << endl;
-}
-
-ostream& operator<<(ostream& ostr, JumpNZero stmt)
-{
-	return ostr << stmt.Instruction << " " << stmt.getOther(1) << endl;
-}
-
-ostream& operator<<(ostream& ostr, GoSub stmt)
-{
-	return ostr << stmt.Instruction << " " << stmt.getOther(1) << endl;
-}
-
-ostream& operator<<(ostream& ostr, Return stmt)
-{
-	return ostr << stmt.Instruction << endl;
-}
-
-ostream& operator<<(ostream& ostr, Enter stmt)
-{
-	return ostr << stmt.Instruction << endl;
-}
-
-ostream& operator<<(ostream& ostr, ExitSubroutine stmt)
-{
-	return ostr << stmt.Instruction << endl;
-}
-
-ostream& operator<<(ostream& ostr, Start stmt)
-{
-	return ostr << stmt.Instruction << " " << stmt.getOther(1) << endl;
-}
-
-ostream& operator<<(ostream& ostr, ExitProgram stmt)
-{
-	return ostr << stmt.Instruction << endl;
-}
-
-ostream& operator<<(ostream& ostr, PushScalar stmt)
-{
-	return ostr << stmt.Instruction << " " << stmt.getOther(1) << endl;
-}
-
-ostream& operator<<(ostream& ostr, PushArray stmt)
-{
-	return ostr << stmt.Instruction << " " << stmt.getOther(1) << endl;
-}
-
-ostream& operator<<(ostream& ostr, PushI stmt)
-{
-	return ostr << stmt.Instruction << " " << stmt.getOther(1) << endl;
-}
-
-ostream& operator<<(ostream& ostr, PopScalar stmt)
-{
-	return ostr << stmt.Instruction << " " << stmt.getOther(1) << endl;
-}
-
-ostream& operator<<(ostream& ostr, PopArray stmt)
-{
-	return ostr << stmt.Instruction << " " << stmt.getOther(1) << endl;
-}
-
-ostream& operator<<(ostream& ostr, Pop stmt)
-{
-	return ostr << stmt.Instruction << endl;
-}
-
-ostream& operator<<(ostream& ostr, Dup stmt)
-{
-	return ostr << stmt.Instruction << endl;
-}
-
-ostream& operator<<(ostream& ostr, Swap stmt)
-{
-	return ostr << stmt.Instruction << endl;
-}
-
-ostream& operator<<(ostream& ostr, Add stmt)
-{
-	return ostr << stmt.Instruction << endl;
-}
-
-ostream& operator<<(ostream& ostr, Negate stmt)
-{
-	return ostr << stmt.Instruction << endl;
-}
-
-ostream& operator<<(ostream& ostr, Mul stmt)
-{
-	return ostr << stmt.Instruction << endl;
-}
-
-ostream& operator<<(ostream& ostr, Div stmt)
-{
-	return ostr << stmt.Instruction << endl;
-}
-
-ostream& operator<<(ostream& ostr, Prints stmt)
-{
-	return ostr << stmt.Instruction << endl;
-}
-
-ostream& operator<<(ostream& ostr, PrintTOS stmt)
-{
-	return ostr << stmt.Instruction << endl;
-}

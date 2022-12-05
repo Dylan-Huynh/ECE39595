@@ -41,7 +41,7 @@ public:
     virtual void setOther();
     virtual void setOther(string _string);
     virtual void setOther(int _int);
-    friend ostream& operator<<(ostream& ostr, Stmt stmt);
+    virtual ostream& print(ostream& ostr);
     Stmt(std::string _opCode);
 
 

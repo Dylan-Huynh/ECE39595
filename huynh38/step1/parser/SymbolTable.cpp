@@ -11,7 +11,7 @@ vector<int> SymbolTable::len{ 0, 0 };
 int SymbolTable::scope = 0;
 
 SymbolTable::SymbolTable() { 
-    SymbolTableList.push_back(map<string, pair<double, double>>());
+    SymbolTableList.push_back(map<string, pair<int, int>>());
 }
 
 SymbolTable* SymbolTable::getInstance() {
@@ -22,10 +22,10 @@ SymbolTable* SymbolTable::getInstance() {
 }
 
 
-void SymbolTable::insertEntry(string key, pair<double,double> entry) {
+void SymbolTable::insertEntry(string key, pair<int, int> entry) {
     // if table[scope] does not exist, create it
     if (SymbolTableList.size() <= scope) {
-        SymbolTableList.push_back(map<string, pair<double, double>>());
+        SymbolTableList.push_back(map<string, pair<int, int>>());
     }
     SymbolTableList[scope][key] = entry;
     mem[scope] += entry.second;

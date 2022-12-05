@@ -95,7 +95,7 @@ string parse(string line) {
 
 	if (opCode == "declscal") {
 		string var = line.substr(line.find(" ") + 1, line.length());
-		pair<double, double> entry (symbolTable->getSize(), 1);
+		pair<int, int> entry (symbolTable->getSize(), 1);
 		symbolTable->insertEntry(var, entry);
 		if (symbolTable->getScope() > 0) {
 			localVarCount++;
@@ -108,7 +108,7 @@ string parse(string line) {
 	if (opCode == "declarr") {
 		string var = line.substr(line.find(" ") + 1, line.length());
 		string length = line.substr(line.find(" ", line.find(" ") + 1) + 1, line.length());
-		pair<double, double> entry(symbolTable->getSize(), stoi(length));
+		pair<int, int> entry(symbolTable->getSize(), stoi(length));
 		symbolTable->getInstance()->insertEntry(var, entry);
 		if (symbolTable->getScope() > 0) {
 			localVarCount += stoi(length);
@@ -121,7 +121,7 @@ string parse(string line) {
 	if (opCode == "label") {
 		string label = line.substr(line.find(" ") + 1, line.length());
 		int instructionLine = instructionBuffer->getSize();
-		pair<double, double> entry(instructionLine, 0);
+		pair<int, int> entry(instructionLine, 0);
 		symbolTable->getInstance()->insertEntry(label, entry);
 		return opCode;
 	}
@@ -129,7 +129,7 @@ string parse(string line) {
 		string label = line.substr(line.find(" ") + 1, line.length());
 		int lineNum = instructionBuffer->getSize();
 		symbolTable->setScope(1);
-		pair<double, double> entry(lineNum, 0);
+		pair<int, int> entry(lineNum, 0);
 		symbolTable->getInstance()->insertEntry(label, entry);
 		Stmt* enter = new Enter("gosublabel", label);
 		instructionBuffer->insertStmt(enter);
@@ -190,14 +190,14 @@ string parse(string line) {
 	}
 	if (opCode == "pushscal") {
 		string var = line.substr(line.find(" ") + 1, line.length());
-		pair<double, double> entry = symbolTable->getInstance()->getEntry(var);
+		pair<int, int> entry = symbolTable->getInstance()->getEntry(var);
 		Stmt* pushscal = new PushScalar("pushscal", to_string(entry.first));
 		instructionBuffer->insertStmt(pushscal);
 		return opCode;
 	}
 	if (opCode == "pusharr") {
 		string var = line.substr(line.find(" ") + 1, line.length());
-		pair<double, double> entry = symbolTable->getInstance()->getEntry(var);
+		pair<int, int> entry = symbolTable->getInstance()->getEntry(var);
 		Stmt* pusharr = new PushArray("pusharr", to_string(entry.first));
 		instructionBuffer->insertStmt(pusharr);
 		return opCode;
@@ -215,14 +215,14 @@ string parse(string line) {
 	}
 	if (opCode == "popscal") {
 		string var = line.substr(line.find(" ") + 1, line.length());
-		pair<double, double> entry = symbolTable->getInstance()->getEntry(var);
+		pair<int, int> entry = symbolTable->getInstance()->getEntry(var);
 		Stmt* popscal = new PopScalar("popscal", to_string(entry.first));
 		instructionBuffer->insertStmt(popscal);
 		return opCode;
 	}
 	if (opCode == "poparr") {
 		string var = line.substr(line.find(" ") + 1, line.length());
-		pair<double, double> entry = symbolTable->getInstance()->getEntry(var);
+		pair<int, int> entry = symbolTable->getInstance()->getEntry(var);
 		Stmt* poparr = new PopArray("poparr", to_string(entry.first));
 		instructionBuffer->insertStmt(poparr);
 		return opCode;

@@ -28,7 +28,8 @@ int main(int argc, char** argv) {
 		return -1;
 	}
 	string line;
-	ifstream f; f.open(argv[1]);
+	ifstream f;
+	f.open(argv[1]);
 	if (f.is_open()) {
 		while (getline(f, line)) {
 			// parse each statement line by line
@@ -59,7 +60,7 @@ int main(int argc, char** argv) {
 		f.close();
 	}
 	else {
-		cerr << "failed to open file " << argv[1] << ", terminating" << std::endl;
+		cerr << "failed to open file " << argv[1] << ", terminating" << endl;
 		return -1;
 	}
 	return 0;
@@ -73,30 +74,30 @@ string parse(string line) {
 
 	if (opCode == "declscal") {
 		string var = line.substr(line.find(" ") + 1, line.length());
-		pair<double, double> entry (SymbolTable::getSize(), 1);
-		SymbolTable::getInstance()->insertEntry(var, entry);
+		pair<double, double> entry (symbolTable->getSize(), 1);
+		symbolTable->insertEntry(var, entry);
 		return opCode;
 	}
 	if (opCode == "declarr") {
 		string var = line.substr(line.find(" ") + 1, line.length());
 		string length = line.substr(line.find(" ", line.find(" ") + 1) + 1, line.length());
-		pair<double, double> entry(SymbolTable::getSize(), stoi(length));
-		SymbolTable::getInstance()->insertEntry(var, entry);
+		pair<double, double> entry(symbolTable->getSize(), stoi(length));
+		symbolTable->getInstance()->insertEntry(var, entry);
 		return opCode;
 	}
 	if (opCode == "label") {
 		string label = line.substr(line.find(" ") + 1, line.length());
-		int instructionLine = InstructionBuffer::getInstance()->getSize();
+		int instructionLine = instructionBuffer->getInstance()->getSize();
 		pair<double, double> entry(instructionLine, 0);
-		SymbolTable::getInstance()->insertEntry(label, entry);
+		symbolTable->getInstance()->insertEntry(label, entry);
 		return opCode;
 	}
 	if (opCode == "gosublabel") {
 		string label = line.substr(line.find(" ") + 1, line.length());
-		int lineNum = InstructionBuffer::getInstance()->getSize();
-		SymbolTable::getInstance()->setScope(1);
+		int lineNum = instructionBuffer->getSize();
+		symbolTable->setScope(1);
 		pair<double, double> entry(lineNum, 0);
-		SymbolTable::getInstance()->insertEntry(label, entry);
+		symbolTable->getInstance()->insertEntry(label, entry);
 		Stmt* enter = new Enter("gosublabel", label);
 		return opCode;
 	}
@@ -114,7 +115,7 @@ string parse(string line) {
 		return opCode;
 	}
 	if (opCode == "return") {
-		SymbolTable::getInstance()->setScope(0);
+		symbolTable->getInstance()->setScope(0);
 		Stmt* ret = new Return("return");
 		instructionBuffer->insertStmt(ret);
 		return opCode;
@@ -145,14 +146,14 @@ string parse(string line) {
 	}
 	if (opCode == "pushscal") {
 		string var = line.substr(line.find(" ") + 1, line.length());
-		pair<double, double> entry = SymbolTable::getInstance()->getEntry(var);
+		pair<double, double> entry = symbolTable->getInstance()->getEntry(var);
 		Stmt* pushscal = new PushScalar("pushscal", to_string(entry.first));
 		instructionBuffer->insertStmt(pushscal);
 		return opCode;
 	}
 	if (opCode == "pusharr") {
 		string var = line.substr(line.find(" ") + 1, line.length());
-		pair<double, double> entry = SymbolTable::getInstance()->getEntry(var);
+		pair<double, double> entry = symbolTable->getInstance()->getEntry(var);
 		Stmt* pusharr = new PushArray("pusharr", to_string(entry.first));
 		instructionBuffer->insertStmt(pusharr);
 		return opCode;
@@ -170,14 +171,14 @@ string parse(string line) {
 	}
 	if (opCode == "popscal") {
 		string var = line.substr(line.find(" ") + 1, line.length());
-		pair<double, double> entry = SymbolTable::getInstance()->getEntry(var);
+		pair<double, double> entry = symbolTable->getInstance()->getEntry(var);
 		Stmt* popscal = new PopScalar("popscal", to_string(entry.first));
 		instructionBuffer->insertStmt(popscal);
 		return opCode;
 	}
 	if (opCode == "poparr") {
 		string var = line.substr(line.find(" ") + 1, line.length());
-		pair<double, double> entry = SymbolTable::getInstance()->getEntry(var);
+		pair<double, double> entry = symbolTable->getInstance()->getEntry(var);
 		Stmt* poparr = new PopArray("poparr", to_string(entry.first));
 		instructionBuffer->insertStmt(poparr);
 		return opCode;
@@ -219,8 +220,8 @@ string parse(string line) {
 	}
 	if (opCode == "prints") {
 		string printStatement = line.substr(line.find(" ") + 1, line.length());
-		StringBuffer::getInstance()->insertString(printStatement);
-		string location = to_string(StringBuffer::getInstance()->getSize());
+		stringBuffer->insertString(printStatement);
+		string location = to_string(stringBuffer->getSize());
 		Stmt* prints = new Prints("prints", location, stringBuffer->getSize() - 1);
 		instructionBuffer->insertStmt(prints);
 	}

@@ -1,0 +1,6 @@
+Start 0
+PushI 4
+PopScalar 0.000000
+PushScalar 0.000000
+PrintTOS
+Exit

@@ -80,7 +80,7 @@ class Enter : public Stmt {
 public:
 
     string label;
-    int location;
+    int numVars;
     Enter(std::string _opCode, string _label);
     string getOther(int index);
     void setOther(string _label);

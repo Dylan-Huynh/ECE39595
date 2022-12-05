@@ -15,7 +15,7 @@ public:
 	static int getLen();
 	vector<map<string, pair<double, double>>> SymbolTableList;
 	void setScope(int _scope);
-
+	int getScope();
 	//static int getData(string key);
 private:
 	SymbolTable();

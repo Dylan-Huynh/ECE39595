@@ -10,7 +10,9 @@ vector<int> SymbolTable::mem{ 0, 0 };
 vector<int> SymbolTable::len{ 0, 0 };
 int SymbolTable::scope = 0;
 
-SymbolTable::SymbolTable() { }
+SymbolTable::SymbolTable() { 
+    SymbolTableList.push_back(map<string, pair<double, double>>());
+}
 
 SymbolTable* SymbolTable::getInstance() {
     if (uniqueInstance == nullptr) {
@@ -48,6 +50,10 @@ void SymbolTable::setScope(int _scope) {
         len[1] = 0;
         SymbolTableList[1].clear();
     }
+}
+
+int SymbolTable::getScope() {
+    return scope;
 }
 
 pair<double, double> SymbolTable::getEntry(string key) {

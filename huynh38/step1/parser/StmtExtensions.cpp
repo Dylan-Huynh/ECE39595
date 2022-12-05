@@ -26,6 +26,9 @@ string Jump::getOther(int index)
 	if (index == 1) {
 		return label;
 	}
+	else {
+		return to_string(location);
+	}
 	return "";
 }
 void Jump::setOther(string _label)
@@ -38,7 +41,7 @@ void Jump::setOther(int _location)
 }
 ostream& Jump::print(ostream& ostr)
 {
-	return ostr << Instruction << " " << getOther(1) << endl;
+	return ostr << Instruction << " " << getOther(2) << endl;
 }
 ;
 
@@ -50,6 +53,9 @@ string JumpZero::getOther(int index)
 {
 	if (index == 1) {
 		return label;
+	}
+	else {
+		return to_string(location);
 	}
 	return "";
 }
@@ -63,7 +69,7 @@ void JumpZero::setOther(int _location)
 }
 ostream& JumpZero::print(ostream& ostr)
 {
-	return ostr << Instruction << " " << getOther(1) << endl;
+	return ostr << Instruction << " " << getOther(2) << endl;
 }
 ;
 
@@ -75,6 +81,9 @@ string JumpNZero::getOther(int index)
 {
 	if (index == 1) {
 		return label;
+	}
+	else {
+		return to_string(location);
 	}
 	return "";
 }
@@ -88,7 +97,7 @@ void JumpNZero::setOther(int _location)
 }
 ostream& JumpNZero::print(ostream& ostr)
 {
-	return ostr << Instruction << " " << getOther(1) << endl;
+	return ostr << Instruction << " " << getOther(2) << endl;
 }
 ;
 
@@ -100,6 +109,9 @@ string GoSub::getOther(int index)
 {
 	if (index == 1) {
 		return label;
+	}
+	else {
+		return to_string(location);
 	}
 	return "";
 }
@@ -113,7 +125,7 @@ void GoSub::setOther(int _location)
 }
 ostream& GoSub::print(ostream& ostr)
 {
-	return ostr << Instruction << " " << getOther(1) << endl;
+	return ostr << Instruction << " " << getOther(2) << endl;
 }
 ;
 
@@ -140,19 +152,22 @@ string Enter::getOther(int index)
 	if (index == 1) {
 		return label;
 	}
+	else {
+		return to_string(numVars);
+	}
 	return "";
 }
 void Enter::setOther(string _label)
 {
 	label = _label;
 }
-void Enter::setOther(int _location)
+void Enter::setOther(int _numVars)
 {
-	location = _location;
+	numVars = _numVars;
 }
 ostream& Enter::print(ostream& ostr)
 {
-	return ostr << Instruction << endl;
+	return ostr << Instruction << " " << getOther(2) << endl;
 }
 ;
 

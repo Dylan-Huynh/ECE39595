@@ -37,9 +37,15 @@ int main(int argc, char** argv) {
 		return -1;
 	}
 	if (inFile.is_open()) {
+		getline(inFile, line);
+		string op = parse(line);
+		if (op != "start") {
+			cerr << "nothing should come before" << endl;
+			exit(0);
+		}
 		while (getline(inFile, line)) {
 			// parse each statement line by line
-			string op = parse(line);
+			op = parse(line);
 			if (op == "") {
 				cerr << "error in parser" << endl;
 				exit(0);
@@ -56,10 +62,13 @@ int main(int argc, char** argv) {
 				for (int i = 0; i < instructionBuffer->getSize(); i++) {
 					Stmt* currStmt = instructionBuffer->getStmt(i);
 					string jump = currStmt->opCode;
-					if (jump == "jump" || jump == "jumpzero" || jump == "jumpnzero") {
+					if (jump == "jump" || jump == "jumpzero" || jump == "jumpnzero" || jump == "gosub") {
 						string label = currStmt->getOther(1);
 						int lineNum = symbolTable->getEntry(label).first;
 						currStmt->setOther(lineNum);
+					}
+					if (jump == "start") {
+						currStmt->setOther(varCount);
 					}
 					currStmt->print(outFile);
 					currStmt->print(cout);
@@ -82,11 +91,18 @@ int main(int argc, char** argv) {
 string parse(string line) {
 	string delimiter = " ";
 	string opCode = line.substr(0, line.find(delimiter));
+	//cout << "OpCode: " << opCode << endl;
 
 	if (opCode == "declscal") {
 		string var = line.substr(line.find(" ") + 1, line.length());
 		pair<double, double> entry (symbolTable->getSize(), 1);
 		symbolTable->insertEntry(var, entry);
+		if (symbolTable->getScope() > 0) {
+			localVarCount++;
+		}
+		else {
+			varCount++;
+		}
 		return opCode;
 	}
 	if (opCode == "declarr") {
@@ -94,11 +110,17 @@ string parse(string line) {
 		string length = line.substr(line.find(" ", line.find(" ") + 1) + 1, line.length());
 		pair<double, double> entry(symbolTable->getSize(), stoi(length));
 		symbolTable->getInstance()->insertEntry(var, entry);
+		if (symbolTable->getScope() > 0) {
+			localVarCount += stoi(length);
+		}
+		else {
+			localVarCount += stoi(length);
+		}
 		return opCode;
 	}
 	if (opCode == "label") {
 		string label = line.substr(line.find(" ") + 1, line.length());
-		int instructionLine = instructionBuffer->getInstance()->getSize();
+		int instructionLine = instructionBuffer->getSize();
 		pair<double, double> entry(instructionLine, 0);
 		symbolTable->getInstance()->insertEntry(label, entry);
 		return opCode;
@@ -110,6 +132,7 @@ string parse(string line) {
 		pair<double, double> entry(lineNum, 0);
 		symbolTable->getInstance()->insertEntry(label, entry);
 		Stmt* enter = new Enter("gosublabel", label);
+		instructionBuffer->insertStmt(enter);
 		return opCode;
 	}
 	if (opCode == "start") {
@@ -129,7 +152,17 @@ string parse(string line) {
 		symbolTable->getInstance()->setScope(0);
 		Stmt* ret = new Return("return");
 		instructionBuffer->insertStmt(ret);
+		for (int i = 0; i < instructionBuffer->getSize(); i++) {
+			Stmt* currStmt = instructionBuffer->getStmt(i);
+			string jump = currStmt->opCode;
+			if (jump == "gosublabel") {
+				currStmt->setOther(localVarCount);
+			}
+
+		}
 		return opCode;
+
+
 	}
 	if (opCode == "jump") {
 		string label = line.substr(line.find(" ") + 1, line.length());
@@ -237,6 +270,7 @@ string parse(string line) {
 		instructionBuffer->insertStmt(prints);
 		return opCode;
 	}
+	
 	return "";
 
 }

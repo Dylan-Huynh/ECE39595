@@ -396,7 +396,7 @@ ostream& Mul::print(ostream& ostr)
 ;
 
 Div::Div(string _opCode) : Stmt(_opCode) {
-	Instruction = "Mul";
+	Instruction = "Div";
 }
 string Div::getOther(int index)
 {

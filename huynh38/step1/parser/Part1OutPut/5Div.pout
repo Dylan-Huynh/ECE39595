@@ -1,8 +1,8 @@
-2+6=
+2/6=
 Start 0
-PushI 2
 PushI 6
-Add
+PushI 2
+Mul
 Prints 0
 PrintTOS
 Exit

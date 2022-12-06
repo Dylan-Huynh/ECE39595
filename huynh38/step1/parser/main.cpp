@@ -59,12 +59,20 @@ int main(int argc, char** argv) {
 					cout << stringBuffer->getString(i) << endl;
 					outFile << stringBuffer->getString(i) << endl;
 				}
+				int inScope = 1;
 				for (int i = 0; i < instructionBuffer->getSize(); i++) {
 					Stmt* currStmt = instructionBuffer->getStmt(i);
 					string jump = currStmt->opCode;
-					if (jump == "jump" || jump == "jumpzero" || jump == "jumpnzero" || jump == "gosub") {
+					
+					if (jump == "gosublabel") {
+						inScope = 0;
+					}
+					if (jump == "return") {
+						inScope = 1;
+					}
+					if (inScope && (jump == "jump" || jump == "jumpzero" || jump == "jumpnzero" || jump == "gosub")) {
 						string label = currStmt->getOther(1);
-						int lineNum = symbolTable->getEntry(label).first;
+						int lineNum = symbolTable->getEntry(label).first;;
 						currStmt->setOther(lineNum);
 					}
 					if (jump == "start") {
@@ -106,15 +114,17 @@ string parse(string line) {
 		return opCode;
 	}
 	if (opCode == "declarr") {
-		string var = line.substr(line.find(" ") + 1, line.length());
+		//cout << line.find(" ", line.find(" ") + 1) - line.find(" ") - 1 << endl;
+		string var = line.substr(line.find(" ") + 1, line.find(" ", line.find(" ") + 1) - line.find(" ") - 1);
 		string length = line.substr(line.find(" ", line.find(" ") + 1) + 1, line.length());
+		//cout << var << endl;
 		pair<int, int> entry(symbolTable->getSize(), stoi(length));
-		symbolTable->getInstance()->insertEntry(var, entry);
+		symbolTable->insertEntry(var, entry);
 		if (symbolTable->getScope() > 0) {
 			localVarCount += stoi(length);
 		}
 		else {
-			localVarCount += stoi(length);
+			varCount += stoi(length);
 		}
 		return opCode;
 	}
@@ -128,9 +138,9 @@ string parse(string line) {
 	if (opCode == "gosublabel") {
 		string label = line.substr(line.find(" ") + 1, line.length());
 		int lineNum = instructionBuffer->getSize();
-		symbolTable->setScope(1);
 		pair<int, int> entry(lineNum, 0);
-		symbolTable->getInstance()->insertEntry(label, entry);
+		symbolTable->insertEntry(label, entry);
+		symbolTable->setScope(1);
 		Stmt* enter = new Enter("gosublabel", label);
 		instructionBuffer->insertStmt(enter);
 		return opCode;
@@ -149,17 +159,31 @@ string parse(string line) {
 		return opCode;
 	}
 	if (opCode == "return") {
-		symbolTable->getInstance()->setScope(0);
+		
 		Stmt* ret = new Return("return");
 		instructionBuffer->insertStmt(ret);
+		int inScope = 0;
 		for (int i = 0; i < instructionBuffer->getSize(); i++) {
 			Stmt* currStmt = instructionBuffer->getStmt(i);
 			string jump = currStmt->opCode;
 			if (jump == "gosublabel") {
 				currStmt->setOther(localVarCount);
+				inScope = 1;
+			}
+			
+			if (inScope && (jump == "jump" || jump == "jumpzero" || jump == "jumpnzero")) {
+				string label = currStmt->getOther(1);
+				int lineNum = symbolTable->getEntry(label).first;
+				currStmt->setOther(lineNum);
+			}
+			if (inScope && jump == "gosub") {
+				string label = currStmt->getOther(1);
+				int lineNum = 0;
+				currStmt->setOther(lineNum);
 			}
 
 		}
+		symbolTable->getInstance()->setScope(0);
 		return opCode;
 
 
@@ -190,14 +214,14 @@ string parse(string line) {
 	}
 	if (opCode == "pushscal") {
 		string var = line.substr(line.find(" ") + 1, line.length());
-		pair<int, int> entry = symbolTable->getInstance()->getEntry(var);
+		pair<int, int> entry = symbolTable->getEntry(var);
 		Stmt* pushscal = new PushScalar("pushscal", to_string(entry.first));
 		instructionBuffer->insertStmt(pushscal);
 		return opCode;
 	}
 	if (opCode == "pusharr") {
 		string var = line.substr(line.find(" ") + 1, line.length());
-		pair<int, int> entry = symbolTable->getInstance()->getEntry(var);
+		pair<int, int> entry = symbolTable->getEntry(var);
 		Stmt* pusharr = new PushArray("pusharr", to_string(entry.first));
 		instructionBuffer->insertStmt(pusharr);
 		return opCode;

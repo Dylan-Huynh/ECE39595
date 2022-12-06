@@ -10,7 +10,7 @@ class SymbolTable {
 public:
 	static SymbolTable* getInstance();
 	void insertEntry(string key, pair<int, int>);
-	pair<double, double> getEntry(std::string key);
+	pair<int, int> getEntry(std::string key);
 	static int getSize();
 	static int getLen();
 	vector<map<string, pair<int, int>>> SymbolTableList;
@@ -19,7 +19,7 @@ public:
 	//static int getData(string key);
 private:
 	SymbolTable();
-	static vector<int> mem;
+	static int mem;
 	static vector<int> len;
 	static int scope;
 	static SymbolTable* uniqueInstance;

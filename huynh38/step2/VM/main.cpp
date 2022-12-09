@@ -46,7 +46,7 @@ int main(int argc, char** argv)
 
             if (instructionLine) {
             // Add to Instruciton memory
-                //cout << line << endl;
+                cout << line << endl;
                 instructionMemory->InstructionList.push_back(line);
             }
             else {

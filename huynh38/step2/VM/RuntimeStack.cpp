@@ -23,10 +23,9 @@ void RuntimeStack::dup(){
 }
 
 void RuntimeStack::swap(){
-    int top = run_stack[0];
-    int second = run_stack[1];
-    run_stack[0] = second;
-    run_stack[1] = top;
+    int tmp = run_stack[0];
+    run_stack[0] = run_stack[1];
+    run_stack[1] = tmp;
 }
 
 void RuntimeStack::add(){

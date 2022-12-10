@@ -133,14 +133,12 @@
     <ClCompile Include="StmtExtensions.cpp" />
     <ClCompile Include="StringBuffer.cpp" />
     <ClCompile Include="SymbolTable.cpp" />
-    <ClCompile Include="TableEntry.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InstructionBuffer.h" />
     <ClInclude Include="StmtExtensions.h" />
     <ClInclude Include="StringBuffer.h" />
     <ClInclude Include="SymbolTable.h" />
-    <ClInclude Include="TableEntry.h" />
     <ClInclude Include="Stmt.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -32,6 +32,7 @@ int main(int argc, char** argv) {
 	inFile.open(argv[1]);
 	ofstream outFile;
 	outFile.open(argv[2]);
+	int endCheck = 0;
 	if (outFile.fail()) {
 		cerr << "failed to open file " << argv[2] << ", terminating" << endl;
 		return -1;
@@ -51,8 +52,9 @@ int main(int argc, char** argv) {
 				exit(0);
 			}
 			if (op == "end") {
+				endCheck++;
 				if (getline(inFile, line)) {
-					cerr << "nothing should come after end" << endl;
+					cerr << "error: code encountered after an end statement" << endl;
 					exit(0);
 				}
 				for (int i = 0; i < stringBuffer->getSize(); i++) {
@@ -84,6 +86,12 @@ int main(int argc, char** argv) {
 				}
 			}
 		}
+		//cout << endl << line << endl;
+		op = parse(line);
+		if (endCheck == 0) {
+			cerr << "error: no end statement in program" << endl;
+			exit(0);
+		}
 		inFile.close();
 		outFile.close();
 	}
@@ -103,6 +111,11 @@ string parse(string line) {
 
 	if (opCode == "declscal") {
 		string var = line.substr(line.find(" ") + 1, line.length());
+		bool check = symbolTable->isIn(var);
+		if (check == true) {
+			cerr << "error: attempting to add variable with name " << var << " twice" << endl;
+			exit(0);
+		}
 		pair<int, int> entry (symbolTable->getSize(), 1);
 		symbolTable->insertEntry(var, entry);
 		if (symbolTable->getScope() > 0) {
@@ -116,6 +129,11 @@ string parse(string line) {
 	if (opCode == "declarr") {
 		//cout << line.find(" ", line.find(" ") + 1) - line.find(" ") - 1 << endl;
 		string var = line.substr(line.find(" ") + 1, line.find(" ", line.find(" ") + 1) - line.find(" ") - 1);
+		bool check = symbolTable->isIn(var);
+		if (check == true) {
+			cerr << "error: attempting to add variable with name " << var << " twice" << endl;
+			exit(0);
+		}
 		string length = line.substr(line.find(" ", line.find(" ") + 1) + 1, line.length());
 		//cout << var << endl;
 		pair<int, int> entry(symbolTable->getSize(), stoi(length));
@@ -130,6 +148,11 @@ string parse(string line) {
 	}
 	if (opCode == "label") {
 		string label = line.substr(line.find(" ") + 1, line.length());
+		bool check = symbolTable->isIn(label);
+		if (check == true) {
+			cerr << "error: attempting to add variable with name " << label << " twice" << endl;
+			exit(0);
+		}
 		int instructionLine = instructionBuffer->getSize();
 		pair<int, int> entry(instructionLine, 0);
 		symbolTable->getInstance()->insertEntry(label, entry);

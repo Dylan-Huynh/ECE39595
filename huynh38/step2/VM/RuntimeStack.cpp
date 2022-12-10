@@ -17,38 +17,54 @@ RuntimeStack* RuntimeStack::getInstance(){
     return uniqueInstance;
 }
 
-void RuntimeStack::dup(){
-    int top = run_stack[0];
-    run_stack.insert(run_stack.begin(), top);
+void RuntimeStack::dup() {
+    int top = runStackList[getSize() - 1];
+    runStackList.push_back(top);
 }
 
-void RuntimeStack::swap(){
-    int tmp = run_stack[0];
-    run_stack[0] = run_stack[1];
-    run_stack[1] = tmp;
+void RuntimeStack::swap() {
+    int tmp = runStackList[getSize() - 1];
+    runStackList[getSize() - 1] = runStackList[getSize() - 2];
+    runStackList[getSize() - 2] = tmp;
 }
 
-void RuntimeStack::add(){
-    int top = run_stack[0];
-    int second = run_stack[1];
-    run_stack.erase(run_stack.begin());
-    run_stack[0] = top + second;
+void RuntimeStack::add() {
+    int top = runStackList[getSize() - 1];
+    int second = runStackList[getSize() - 2];
+    eraseTop();
+    runStackList[getSize() - 1] = top + second;
 }
 
-void RuntimeStack::negate(){
-    run_stack[0] = 0 - run_stack[0];
+void RuntimeStack::negate() {
+    runStackList[getSize() - 1] = 0 - runStackList[getSize() - 1];
 }
 
-void RuntimeStack::mul(){
-    int top = run_stack[0];
-    int second = run_stack[1];
-    run_stack.erase(run_stack.begin());
-    run_stack[0] = top * second;
+void RuntimeStack::mul() {
+    int top = runStackList[0];
+    int second = runStackList[1];
+    eraseTop();
+    runStackList[getSize() - 1] = top * second;
 }
 
-void RuntimeStack::div(){
-    int top = run_stack[0];
-    int second = run_stack[1];
-    run_stack.erase(run_stack.begin());
-    run_stack[0] = top / second;
+void RuntimeStack::div() {
+    int top = runStackList[0];
+    int second = runStackList[1];
+    eraseTop();
+    runStackList[(getSize()) - 1] = top / second;
+}
+
+void RuntimeStack::eraseTop() {
+    runStackList.erase(runStackList.begin());
+}
+
+int RuntimeStack::getTop() {
+    return runStackList[getSize() - 1];
+}
+
+void RuntimeStack::insertAtTop(int data) {
+    runStackList.push_back(data);
+}
+
+int RuntimeStack::getSize() {
+    return runStackList.size();
 }

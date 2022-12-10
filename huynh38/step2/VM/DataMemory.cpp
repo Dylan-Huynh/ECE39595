@@ -17,67 +17,62 @@ DataMemory* DataMemory::getInstance(){
 
 void DataMemory::addMainStack(int scope_size){
 
-    data_mem.resize(scope_size);
+    dataMemoryList.resize(scope_size);
 
 }
 void DataMemory::addSubStack(int size){
     vector<int> vec;
     vec.resize(size);
-    sub_mem.push(vec);
+    subMemoryList.push(vec);
 }
 
-void DataMemory::popScl(int opnd, RuntimeStack* rs){
-    //data_mem[opnd] = rs->run_stack[0];
-    setVal(opnd, rs->run_stack[0]);
-    rs->run_stack.erase(rs->run_stack.begin());
+void DataMemory::popScl(int operand, RuntimeStack* runtimeStack){
+    setVal(operand, runtimeStack->getTop());
+    runtimeStack->eraseTop();
 }
 
-void DataMemory::popArr(int opnd, RuntimeStack* rs){
-    int stackValue = rs->run_stack[0];
-    int e = opnd + stackValue;
-    rs->run_stack.erase(rs->run_stack.begin());
-   
-    //data_mem[e] = rs->run_stack[0];
-    setVal(e, rs->run_stack[0]);
-    rs->run_stack.erase(rs->run_stack.begin());
+void DataMemory::popArr(int operand, RuntimeStack* runtimeStack){
+    int val = runtimeStack->getTop();
+    int e = operand + val;
+    runtimeStack->eraseTop();
+    setVal(e, runtimeStack->getTop());
+    runtimeStack->eraseTop();
 }
 
-void DataMemory::pushScl(int opnd, RuntimeStack* rs){
-    int stackVal = getVal(opnd);
+void DataMemory::pushScl(int opnd, RuntimeStack* runtimeStack){
+    int val = getVal(opnd);
 
-    rs->run_stack.insert(rs->run_stack.begin(), stackVal);
+    runtimeStack->insertAtTop(val);
 }
 
-void DataMemory::pushArr(int opnd, RuntimeStack* rs){
-    int e = opnd + rs->run_stack[0];
-    rs->run_stack.erase(rs->run_stack.begin());
-    int StackVal = getVal(e);
-    rs->run_stack.insert(rs->run_stack.begin(), StackVal);
+void DataMemory::pushArr(int opnd, RuntimeStack* runtimeStack){
+    int e = opnd + runtimeStack->getTop();
+    runtimeStack->eraseTop();
+    int stackVal = getVal(e);
+    runtimeStack->insertAtTop(stackVal);
 
 }
 
 void DataMemory::deleteStack(int size){
-    sub_mem.pop();
+    subMemoryList.pop();
 }
 
 int DataMemory::getVal(int index){
-    if(index < mainsize){
-        return data_mem[index];
+    if(index < mainVars){
+        return dataMemoryList[index];
     }
     else{
-        //return sub_mem[index - mainsize];
         vector<int> vec;
-        vec = sub_mem.top();
-        return vec[index - mainsize];
+        vec = subMemoryList.top();
+        return vec[index - mainVars];
     }
 }
 
 void DataMemory::setVal(int index, int val){
-    if(index < mainsize){
-        data_mem[index] = val;
+    if(index < mainVars){
+        dataMemoryList[index] = val;
     }
     else{
-        //sub_mem[index - mainsize] = val;
-        sub_mem.top()[index - mainsize] = val;
+        subMemoryList.top()[index - mainVars] = val;
     }
 }

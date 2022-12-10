@@ -62,3 +62,12 @@ int SymbolTable::getScope() {
 pair<int, int> SymbolTable::getEntry(string key) {
     return SymbolTableList[scope][key];
 }
+
+bool SymbolTable::isIn(string key) {
+    if (SymbolTableList[scope].find(key) == SymbolTableList[scope].end()) {
+        return false;
+    }
+    else {
+        return true;
+    }
+}

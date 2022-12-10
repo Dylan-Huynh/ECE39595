@@ -17,6 +17,7 @@ public:
 	void setScope(int _scope);
 	int getScope();
 	//static int getData(string key);
+	bool isIn(string key);
 private:
 	SymbolTable();
 	static int mem;

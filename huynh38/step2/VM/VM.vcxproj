@@ -137,7 +137,6 @@
     <ClCompile Include="DataMemory.cpp" />
     <ClCompile Include="InstructionMemory.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="pc.cpp" />
     <ClCompile Include="RuntimeStack.cpp" />
     <ClCompile Include="StringTable.cpp" />
   </ItemGroup>

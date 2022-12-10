@@ -28,17 +28,15 @@ int main(int argc, char** argv)
     InstructionMemory *instructionMemory = InstructionMemory::getInstance();
     RuntimeStack *runtimeStack = RuntimeStack::getInstance();
     DataMemory *dataMemory = DataMemory::getInstance();
-    vector<int> returnAddress; 
+    vector<int> ra; 
     vector<int> stackSize;
 
     int endCount =0;
-    //ifstream inFile("test.txt");
     string line;
     int instructionLine = 0;
-    //ifstream inFile("/Users/jenniferniemeyer/Downloads/ECE 39595/ProjectAssigned/OutputAndTestCases/TestCases10_08_22/26Recurse");
     if (!inFile.is_open( )) {
           cout << "failed to open file " << argv[1] << ", terminating" << endl;
-          return -1;
+          exit(0);
     }
     else {
         while (getline(inFile, line)) {
@@ -47,16 +45,13 @@ int main(int argc, char** argv)
             }
 
             if (instructionLine) {
-            // Add to Instruciton memory
                 //cout << line << endl;
                 instructionMemory->InstructionList.push_back(line);
             }
             else {
-            //add to string memory
                 stringTable->insertString(line);
             }
-        
-        // SAVE FOR GOING THROUGH INST MEM
+
         
         }    
     }
@@ -66,7 +61,7 @@ int main(int argc, char** argv)
     
 
     bool instMemDone = false;
-    int pc = 0; // index of instruction memory vector location
+    int pc = 0;
     while (!instMemDone and instructionLine) {   
         
         line = instructionMemory->InstructionList[pc];
@@ -77,49 +72,57 @@ int main(int argc, char** argv)
         if (opCode == "GoSubLabel") {
             int data = stoi(line.substr(line.find(" ") + 1, line.length()));
             dataMemory->addSubStack(data);
-            stackSize.insert(stackSize.begin(), data); 
+            stackSize.push_back(data);
             pc++;
         }
         else if (opCode == "Start") {
             int data = stoi(line.substr(line.find(" ") + 1, line.length()));
             dataMemory->addMainStack(data);
-            dataMemory->mainsize = data;
+            dataMemory->mainVars = data;
             pc++;
         }
         else if (opCode == "Exit") {
             instMemDone = true;   
         }
-        else if (opCode == "JumpZero") {
-            if(runtimeStack->run_stack[0] == 0){
-                int data = stoi(line.substr(line.find(" ") + 1, line.length()));
-                pc = data;
-            }
-            else {
-                pc++;
-            }
-            runtimeStack->run_stack.erase(runtimeStack->run_stack.begin());
+        else if (opCode == "Return") {
+            pc = ra[0];
+            ra.pop_back();
+            dataMemory->deleteStack(stackSize[stackSize.size() - 1]);
+            stackSize.pop_back();
         }
-        else if (opCode == "JumpNZero") {
-            if(runtimeStack->run_stack[0]){
-                int data = stoi(line.substr(line.find(" ") + 1, line.length()));
-                pc = data;
-            }
-            else {
-                pc++;
-            }
-            runtimeStack->run_stack.erase(runtimeStack->run_stack.begin());
-        }
-        else if (opCode == "GoSub") {
-            returnAddress.insert(returnAddress.begin(), (pc+1));
+        else if (opCode == "Jump") {
             int data = stoi(line.substr(line.find(" ") + 1, line.length()));
             pc = data;
         }
-        else if (opCode == "Return") {
-            pc = returnAddress[0];
-            returnAddress.erase(returnAddress.begin());
-            dataMemory->deleteStack(stackSize[0]);
-            stackSize.erase(stackSize.begin());
+        else if (opCode == "JumpZero") {
+            int topG = runtimeStack->getTop();
+            runtimeStack->eraseTop();
+            if(topG == 0) {
+                int data = stoi(line.substr(line.find(" ") + 1, line.length()));
+                pc = data;
+            }
+            else {
+                pc++;
+            }
+            
         }
+        else if (opCode == "JumpNZero") {
+            int topG = runtimeStack->getTop();
+            runtimeStack->eraseTop();
+            if(topG){
+                int data = stoi(line.substr(line.find(" ") + 1, line.length()));
+                pc = data;
+            }
+            else {
+                pc++;
+            }
+        }
+        else if (opCode == "GoSub") {
+            ra.push_back((pc + 1));
+            int data = stoi(line.substr(line.find(" ") + 1, line.length()));
+            pc = data;
+        }
+        
         else if (opCode == "PushScalar") {
             int data = stoi(line.substr(line.find(" ") + 1, line.length()));
             dataMemory->pushScl(data, runtimeStack);
@@ -132,7 +135,11 @@ int main(int argc, char** argv)
         }
         else if (opCode == "PushI") {
             int data = stoi(line.substr(line.find(" ") + 1, line.length()));
-            runtimeStack->run_stack.insert(runtimeStack->run_stack.begin(), data);
+            runtimeStack->insertAtTop(data);
+            pc++;
+        }
+        else if (opCode == "Pop") {
+            runtimeStack->eraseTop();
             pc++;
         }
         else if (opCode == "PopScalar") {
@@ -143,14 +150,6 @@ int main(int argc, char** argv)
         else if (opCode == "PopArray") {
             int data = stoi(line.substr(line.find(" ") + 1, line.length()));
             dataMemory->popArr(data, runtimeStack);
-            pc++;
-        }
-        else if (opCode == "Jump") {
-            int data = stoi(line.substr(line.find(" ") + 1, line.length()));
-            pc = data;
-        }
-        else if (opCode == "Pop") {
-            runtimeStack->run_stack.erase(runtimeStack->run_stack.begin());
             pc++;
         }
         else if (opCode == "Dup") {
@@ -174,13 +173,13 @@ int main(int argc, char** argv)
             pc++;
         }
         else if (opCode == "Div") {
-            runtimeStack->div();
-            pc++;
+            cout << runtimeStack->getTop() << endl;
+            runtimeStack->eraseTop();
         }
         else if (opCode == "PrintTOS") {
-            outFile << runtimeStack->run_stack[0] << endl;
-            cout << runtimeStack->run_stack[0] << endl;
-            runtimeStack->run_stack.erase(runtimeStack->run_stack.begin());
+            cout << runtimeStack->getTop() << endl;
+            outFile << runtimeStack->getTop() << endl;
+            runtimeStack->eraseTop();
             pc++;
         }
         else if (opCode == "Prints") { 
@@ -193,6 +192,7 @@ int main(int argc, char** argv)
             cout << "Something didn't count" << endl;
         }
 
+        // Set at the end of the vector
     }
     outFile.close();
     

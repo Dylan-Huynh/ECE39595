@@ -5,24 +5,25 @@
 using namespace std;
 
 class RuntimeStack {
-    public:
-        static RuntimeStack* getInstance();
-        vector<int> run_stack;
-        int getStackValue();
-        void dup();
-        void swap();
-        void add();
-        void negate();
-        void mul();
-        void div();
-    private:
-        static RuntimeStack* uniqueInstance;
-        RuntimeStack();
+public:
+    static RuntimeStack* getInstance();
+    
+    void dup();
+    void swap();
+    void add();
+    void negate();
+    void mul();
+    void div();
+    void PrintTOS();
+    void eraseTop();
+    int getTop();
+    void insertAtTop(int data);
+    int getSize();
+private:
+    static RuntimeStack* uniqueInstance;
+    vector<int> runStackList;
+    RuntimeStack();
 
 };
 
-
-
-
-
-#endif
+#endif /* RUNTIMESTACK_H_ */

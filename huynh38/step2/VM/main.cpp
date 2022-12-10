@@ -173,8 +173,8 @@ int main(int argc, char** argv)
             pc++;
         }
         else if (opCode == "Div") {
-            cout << runtimeStack->getTop() << endl;
-            runtimeStack->eraseTop();
+            runtimeStack->div();
+            pc++;
         }
         else if (opCode == "PrintTOS") {
             cout << runtimeStack->getTop() << endl;

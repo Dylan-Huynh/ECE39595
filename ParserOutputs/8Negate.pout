@@ -1,5 +1,5 @@
 Start 0
 PushI 6
-Negate
-PrintTOS
+Negate 
+PrintTOS 
 Exit

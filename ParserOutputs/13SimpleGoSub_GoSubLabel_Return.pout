@@ -6,5 +6,5 @@ Prints 0
 Jump 7
 GoSubLabel 0
 Prints 1
-Return
+Return 
 Exit

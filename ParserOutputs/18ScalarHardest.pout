@@ -8,8 +8,7 @@ PopScalar 2
 PopScalar 3
 PushScalar 2
 PushScalar 3
-Return
-PrintTOS
-Pop
-PrintTOS
+Return 
+PrintTOS 
+PrintTOS 
 Exit

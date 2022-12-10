@@ -12,8 +12,7 @@ PushI 2
 PushArray 8
 PushI 0
 PushArray 15
-Return
-PrintTOS
-Pop
-PrintTOS
+Return 
+PrintTOS 
+PrintTOS 
 Exit

@@ -5,6 +5,6 @@ Jump 8
 GoSubLabel 1
 PopScalar 0
 PushScalar 0
-Return
-PrintTOS
+Return 
+PrintTOS 
 Exit

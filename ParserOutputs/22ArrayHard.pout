@@ -6,14 +6,13 @@ PushI 4
 PushI 8
 PushI 1
 PopArray 0
-PushI 2
+PushI 0
 PopArray 2
 PushI 1
 PushArray 0
-PushI 2
+PushI 0
 PushArray 2
-Return
-PrintTOS
-Pop
-PrintTOS
+Return 
+PrintTOS 
+PrintTOS 
 Exit

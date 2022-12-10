@@ -6,15 +6,15 @@ PushI 4
 PopScalar 9
 PushScalar 9
 PushI 1
-Negate
-Add
+Negate 
+Add 
 Dup
 PopScalar 9
 Dup
 PopArray 0
 PushScalar 9
 PushI 4
-Add
+Add 
 PushScalar 9
 PopArray 4
 PushScalar 9
@@ -23,21 +23,21 @@ PushI 4
 PopScalar 9
 PushScalar 9
 PushI 1
-Negate
-Add
+Negate 
+Add 
 Dup
 PopScalar 9
 Dup
 PushArray 0
-Swap
-PushArray 0
-Mul
+Swap 
+PushArray 4
+Mul 
 PushScalar 8
-Add
+Add 
 PopScalar 8
 PushScalar 9
 JumpNZero 22
 PushScalar 8
 Prints 0
-PrintTOS
+PrintTOS 
 Exit

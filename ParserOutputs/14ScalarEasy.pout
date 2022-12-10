@@ -2,5 +2,5 @@ Start 1
 PushI 4
 PopScalar 0
 PushScalar 0
-PrintTOS
+PrintTOS 
 Exit

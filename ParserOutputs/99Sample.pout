@@ -6,7 +6,7 @@ Jump 8
 GoSubLabel 1
 PopScalar 1
 PushScalar 1
-Return
+Return 
 PopScalar 0
 Prints 0
 Exit

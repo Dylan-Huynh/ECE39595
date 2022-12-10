@@ -5,7 +5,6 @@ PopScalar 0
 PopScalar 1
 PushScalar 0
 PushScalar 1
-PrintTOS
-Pop
-PrintTOS
+PrintTOS 
+PrintTOS 
 Exit

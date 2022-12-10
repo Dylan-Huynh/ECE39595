@@ -2,22 +2,22 @@ in_FIB
 Start 0
 PushI 3
 GoSub 5
-PrintTOS
+PrintTOS 
 Jump 21
 GoSubLabel 1
 Prints 0
 Dup
 PopScalar 0
 PushI 1
-Negate
-Add
+Negate 
+Add 
 Dup
 JumpZero 18
-GoSub 0
+GoSub 5
 PushScalar 0
-Mul
+Mul 
 Jump 20
-Pop
+Pop 
 PushI 1
-Return
+Return 
 Exit

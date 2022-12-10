@@ -11,8 +11,8 @@ Jump 7
 Prints 1
 Dup
 PushI 1
-Negate
-Add
+Negate 
+Add 
 JumpZero 14
 Prints 2
 Jump 15

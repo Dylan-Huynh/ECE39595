@@ -7,6 +7,6 @@ PushI 1
 PopArray 0
 PushI 1
 PushArray 0
-Return
-PrintTOS
+Return 
+PrintTOS 
 Exit

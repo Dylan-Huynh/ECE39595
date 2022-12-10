@@ -89,7 +89,7 @@ int main(int argc, char** argv) {
 	}
 	else {
 		cerr << "failed to open file " << argv[1] << ", terminating" << endl;
-		return -1;
+		exit(0);
 	}
 	return 0;
 

@@ -1,4 +1,4 @@
-Start 1
+Start 4
 PushI 4
 PushI 8
 PushI 1
@@ -9,7 +9,6 @@ PushI 1
 PushArray 0
 PushI 2
 PushArray 0
-PrintTOS
-Pop
-PrintTOS
+PrintTOS 
+PrintTOS 
 Exit

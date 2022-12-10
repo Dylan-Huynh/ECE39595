@@ -1,8 +1,8 @@
-6/2=
+2/6=
 Start 0
 PushI 6
 PushI 2
 Div
 Prints 0
-PrintTOS
+PrintTOS 
 Exit

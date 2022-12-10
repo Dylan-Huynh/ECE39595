@@ -54,7 +54,7 @@ void RuntimeStack::div() {
 }
 
 void RuntimeStack::eraseTop() {
-    runStackList.erase(runStackList.begin());
+    runStackList.pop_back();
 }
 
 int RuntimeStack::getTop() {

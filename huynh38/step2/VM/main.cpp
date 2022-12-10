@@ -85,7 +85,7 @@ int main(int argc, char** argv)
             instMemDone = true;   
         }
         else if (opCode == "Return") {
-            pc = ra[0];
+            pc = ra[ra.size() - 1];
             ra.pop_back();
             dataMemory->deleteStack(stackSize[stackSize.size() - 1]);
             stackSize.pop_back();
